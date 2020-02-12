@@ -10,6 +10,7 @@ import (
 type Valuer interface {
 	SetValue(redis.Conn, string, string) interface{}
 	GetValue(redis.Conn, string, string) interface{}
+	Close(redis.Conn)
 }
 
 // Token is the session key
@@ -31,7 +32,7 @@ func NewConn() redis.Conn {
 // SetValue store value in memory
 func (t Token) SetValue(conn redis.Conn, name, value string) interface{} {
 	val, err := conn.Do("SET", name, value)
-	defer conn.Close()
+	// defer conn.Close()
 
 	if err != nil {
 		log.Println(err)
@@ -43,11 +44,16 @@ func (t Token) SetValue(conn redis.Conn, name, value string) interface{} {
 // GetValue retrieves value from memory
 func (t Token) GetValue(conn redis.Conn, name string) interface{} {
 	val, err := conn.Do("GET", name)
-	defer conn.Close()
+	// defer conn.Close()
 
 	if err != nil {
 		log.Println(err)
 	}
 
 	return val
+}
+
+// Close redis
+func (t Token) Close(conn redis.Conn) {
+	conn.Close()
 }

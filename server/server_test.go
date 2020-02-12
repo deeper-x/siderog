@@ -1,18 +1,26 @@
 package server
 
 import (
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/rafaeljusto/redigomock"
 )
 
 func TestStartSession(t *testing.T) {
-	server := httptest.NewServer(StartSession())
+	sess := Session{}
+	mockConn := redigomock.NewConn()
+
+	server := httptest.NewServer(sess.Start(mockConn))
 	defer server.Close()
 
-	req, err := http.Get(server.URL)
+	expectedToken := "029384028095203892"
+	urlQuery := fmt.Sprintf("%v/start_session?token=%v", server.URL, expectedToken)
+	req, err := http.Get(urlQuery)
 
 	if err != nil {
 		log.Fatal(err)
@@ -26,9 +34,8 @@ func TestStartSession(t *testing.T) {
 	}
 
 	output := string(result)
-	expected := "hello session"
 
-	if output != expected {
+	if output != expectedToken {
 		t.Errorf("output %v not expected", output)
 	}
 }

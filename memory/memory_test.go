@@ -21,6 +21,10 @@ func (m mockToken) GetValue(r redis.Conn, name string) interface{} {
 	return "justorius"
 }
 
+func (m mockToken) Close(r redis.Conn) {
+	r.Close()
+}
+
 func TestSetValue(t *testing.T) {
 	mockConn := redigomock.NewConn()
 	mt := mockToken{}

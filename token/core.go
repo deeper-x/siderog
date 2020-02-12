@@ -8,8 +8,19 @@ import (
 	"github.com/denisbrodbeck/machineid"
 )
 
-// GetMachineID retrive the machine unique identifier
-func GetMachineID() string {
+// Tokenizer is the token generator
+type Tokenizer interface {
+	GetID() string
+	HashString(key, input string) string
+}
+
+// Machine the running PC
+type Machine struct {
+	ID string
+}
+
+// GetID retrive the machine unique identifier
+func (m Machine) GetID() string {
 	id, err := machineid.ID()
 
 	if err != nil {
@@ -20,7 +31,7 @@ func GetMachineID() string {
 }
 
 // HashString a generic input string
-func HashString(key, input string) string {
+func (m Machine) HashString(key, input string) string {
 	mac := hmac.New(sha256.New, []byte(input))
 
 	mac.Write([]byte(key))

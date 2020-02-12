@@ -11,14 +11,14 @@ Client first set starting session token, then checks if session is active.
 
 ```bash
 # query start session
-http://127.0.0.1:8080/start_session?token=0f39F48J938JF2D834DNCSDR4
+/start_session?token=0f39F48J938JF2D834DNCSDR4
 
-# output: OK
+# return: OK
 
 # query check session
-http://127.0.0.1:8080/check_session?token=0f39F48J938JF2D834DNCSDR4
+/check_session?token=0f39F48J938JF2D834DNCSDR4
 
-# output: true/false
+# return: true|false
 ```
 
 ### Unittest

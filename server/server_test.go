@@ -25,5 +25,10 @@ func TestStartSession(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	log.Println(string(result))
+	output := string(result)
+	expected := "hello session"
+
+	if output != expected {
+		t.Errorf("output %v not expected", output)
+	}
 }

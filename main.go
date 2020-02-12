@@ -8,10 +8,12 @@ import (
 
 func main() {
 	conn := memory.NewConn()
-	memory.SetValue(conn, "val", "demo")
+	token := memory.Token{}
+
+	token.SetValue(conn, "val", "demo")
 
 	conn = memory.NewConn()
-	res := memory.GetValue(conn, "val")
+	res := token.GetValue(conn, "val")
 
 	log.Println(res)
 }

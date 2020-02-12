@@ -6,6 +6,12 @@ import (
 	"github.com/gomodule/redigo/redis"
 )
 
+// Valuer defines methods of value CRUD
+type Valuer interface {
+	SetValue(redis.Conn, string, string) interface{}
+	GetValue(redis.Conn, string, string) interface{}
+}
+
 // Token is the session key
 type Token struct {
 	value string `redis:"value"`
@@ -23,7 +29,7 @@ func NewConn() redis.Conn {
 }
 
 // SetValue store value in memory
-func SetValue(conn redis.Conn, name, value string) interface{} {
+func (t Token) SetValue(conn redis.Conn, name, value string) interface{} {
 	val, err := conn.Do("SET", name, value)
 	defer conn.Close()
 
@@ -35,7 +41,7 @@ func SetValue(conn redis.Conn, name, value string) interface{} {
 }
 
 // GetValue retrieves value from memory
-func GetValue(conn redis.Conn, name string) interface{} {
+func (t Token) GetValue(conn redis.Conn, name string) interface{} {
 	val, err := conn.Do("GET", name)
 	defer conn.Close()
 

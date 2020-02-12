@@ -3,19 +3,29 @@ package memory
 import (
 	"testing"
 
+	"github.com/gomodule/redigo/redis"
 	"github.com/rafaeljusto/redigomock"
 )
 
+type mockToken struct {
+	value string
+}
+
+// SetValue mocks a redis SET
+func (m mockToken) SetValue(r redis.Conn, name, value string) interface{} {
+	return "OK"
+}
+
+// GetValue mocks a redis GET
+func (m mockToken) GetValue(r redis.Conn, name string) interface{} {
+	return "justorius"
+}
+
 func TestSetValue(t *testing.T) {
 	mockConn := redigomock.NewConn()
+	mt := mockToken{}
 
-	cmd := mockConn.Command("SET", "token", "098204982").Expect("OK")
-
-	val := SetValue(mockConn, "token", "098204982")
-
-	if mockConn.Stats(cmd) != 1 {
-		t.Fatalf("Command %v never called...", cmd)
-	}
+	val := mt.SetValue(mockConn, "token", "098204982")
 
 	if val != "OK" {
 		t.Fatal("OK error", val)
@@ -24,15 +34,11 @@ func TestSetValue(t *testing.T) {
 
 func TestGetValue(t *testing.T) {
 	mockConn := redigomock.NewConn()
+	mt := mockToken{}
+
 	expected := "justorius"
 
-	cmd := mockConn.Command("GET", "token").Expect(expected)
-
-	val := GetValue(mockConn, "token")
-
-	if mockConn.Stats(cmd) != 1 {
-		t.Fatal("cmd not executed")
-	}
+	val := mt.GetValue(mockConn, "token")
 
 	if val != expected {
 		t.Error("retval not as expected", val)

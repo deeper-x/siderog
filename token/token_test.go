@@ -8,8 +8,7 @@ const machineIDLen = 32
 const hashLength = 32
 
 type mockMachine struct {
-	id   string
-	hash string
+	ID string
 }
 
 func (m mockMachine) GetID() string {
@@ -21,20 +20,19 @@ func (m mockMachine) HashString(key, input string) string {
 }
 
 func TestGetID(t *testing.T) {
-	mt := mockMachine{id: "1", hash: "019283018"}
+	mt := mockMachine{ID: "1"}
 	res := mt.GetID()
 
 	if len(res) != machineIDLen {
 		t.Errorf("Token %v not generated correctly", res)
 	}
-
 }
 
 func TestHashString(t *testing.T) {
 	aString := "2039840283420834"
 	key := "a random key..."
 
-	mt := mockMachine{id: "1", hash: "23798249"}
+	mt := mockMachine{ID: "1"}
 
 	res := mt.HashString(key, aString)
 

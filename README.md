@@ -11,7 +11,7 @@ Client first set starting session token, then checks if session is active.
 
 ```bash
 # start session
-/start_session?token=0f39F48J938JF2D834DNCSDR4
+/start_session
 
 # return: 0f39F48J938JF2D834DNCSDR4
 

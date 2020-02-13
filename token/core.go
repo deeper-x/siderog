@@ -4,6 +4,7 @@ import (
 	"crypto/hmac"
 	"crypto/sha256"
 	"log"
+	"strings"
 
 	"github.com/denisbrodbeck/machineid"
 )
@@ -37,5 +38,12 @@ func (m Machine) HashString(key, input string) string {
 	mac.Write([]byte(key))
 
 	// return fmt.Sprintf("%s", mac.Sum(nil))
-	return string(mac.Sum(nil))
+	sliceHash := string(mac.Sum(nil))
+
+	var container []string
+	for _, v := range sliceHash {
+		container = append(container, string(v))
+	}
+
+	return strings.Join(container, "")
 }

@@ -8,6 +8,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/deeper-x/siderog/token"
 	"github.com/rafaeljusto/redigomock"
 )
 
@@ -19,11 +20,14 @@ func TestStartSession(t *testing.T) {
 	server := httptest.NewServer(sess.Start(mockConn))
 	defer server.Close()
 
-	// register redigomock connection
-	mockConn.Command("SET", "029384028095203892", "true").Expect("029384028095203892")
+	mm := token.MockMachine{}
 
-	expectedToken := "029384028095203892"
-	urlQuery := fmt.Sprintf("%v/start_session?token=%v", server.URL, expectedToken)
+	ID := mm.GetID()
+
+	// register redigomock connection
+	mockConn.Command("SET", ID, "true").Expect("OK")
+
+	urlQuery := fmt.Sprintf("%v/start_session", server.URL)
 	req, err := http.Get(urlQuery)
 
 	if err != nil {
@@ -39,8 +43,8 @@ func TestStartSession(t *testing.T) {
 
 	output := string(result)
 
-	if output != expectedToken {
-		t.Errorf("output %v not expected", output)
+	if output != ID {
+		t.Errorf("output %v != %v not expected", output, ID)
 	}
 }
 

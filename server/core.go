@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/deeper-x/siderog/memory"
+	"github.com/deeper-x/siderog/token"
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -22,12 +23,14 @@ type Session struct {
 // Start creates the memory token
 func (s Session) Start(c redis.Conn) http.HandlerFunc {
 	sFunc := func(w http.ResponseWriter, r *http.Request) {
-		values := r.URL.Query()
-		token := values["token"][0]
+		m := token.Machine{}
+
+		// TODO - MachineID should not be passed publicly - please hash it
+		ID := m.GetID()
 
 		// TODO - check if it's created, createToken should return a bool
-		s.createToken(c, token)
-		io.WriteString(w, token)
+		s.createToken(c, ID)
+		io.WriteString(w, ID)
 	}
 
 	return sFunc

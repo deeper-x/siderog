@@ -2,6 +2,7 @@ package memory
 
 import (
 	"log"
+	"strings"
 
 	"github.com/gomodule/redigo/redis"
 )
@@ -42,15 +43,32 @@ func (t Token) SetValue(conn redis.Conn, name, value string) interface{} {
 }
 
 // GetValue retrieves value from memory
-func (t Token) GetValue(conn redis.Conn, name string) interface{} {
-	val, err := conn.Do("GET", name)
+func (t Token) GetValue(conn redis.Conn, value string) bool {
+	val, err := conn.Do("GET", value)
 	// defer conn.Close()
 
 	if err != nil {
 		log.Println(err)
 	}
 
-	return val
+	if val == nil {
+		return false
+	}
+
+	inSlice := val.([]uint8)
+
+	letters := []string{}
+	for _, v := range inSlice {
+		letters = append(letters, string(v))
+	}
+
+	retStr := strings.Join(letters, "")
+
+	if retStr != "true" {
+		return false
+	}
+
+	return true
 }
 
 // Close redis

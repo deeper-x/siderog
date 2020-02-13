@@ -10,12 +10,12 @@ Client first set starting session token, then checks if session is active.
 ### Calls
 
 ```bash
-# query start session
+# start session
 /start_session?token=0f39F48J938JF2D834DNCSDR4
 
 # return: OK
 
-# query check session
+# check session
 /check_session?token=0f39F48J938JF2D834DNCSDR4
 
 # return: true|false

@@ -13,7 +13,7 @@ Client first set starting session token, then checks if session is active.
 # start session
 /start_session?token=0f39F48J938JF2D834DNCSDR4
 
-# return: OK
+# return: 0f39F48J938JF2D834DNCSDR4
 
 # check session
 /check_session?token=0f39F48J938JF2D834DNCSDR4

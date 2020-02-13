@@ -27,3 +27,16 @@ Client first set starting session token, then checks if session is active.
 > go test -v -cover ./...
 [...]
 ```
+
+### Build
+
+```bash
+> export GOPATH=${HOME}/go
+> export GOBIN=${GOPATH}/bin
+> export PATH=${PATH}:${GOBIN}
+> export GO111MODULE=on
+....
+> go build -o ${GOBIN}
+> siderog
+> Server running...
+```

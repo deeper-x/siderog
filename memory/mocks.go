@@ -15,8 +15,8 @@ func (m MockToken) SetValue(r *redigomock.Conn, name, value string) interface{} 
 }
 
 // GetValue mocks a redis GET
-func (m MockToken) GetValue(r *redigomock.Conn, name string) interface{} {
-	return "justorius"
+func (m MockToken) GetValue(r *redigomock.Conn, name string) bool {
+	return true
 }
 
 func (m MockToken) Close(r redis.Conn) {

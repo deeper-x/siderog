@@ -21,7 +21,7 @@ func TestGetValue(t *testing.T) {
 	mockConn := redigomock.NewConn()
 	mt := MockToken{}
 
-	expected := "justorius"
+	expected := true
 
 	val := mt.GetValue(mockConn, "token")
 

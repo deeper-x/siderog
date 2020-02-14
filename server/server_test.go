@@ -50,7 +50,7 @@ func TestStartSession(t *testing.T) {
 }
 
 func TestCheckSession(t *testing.T) {
-	sess := Session{}
+	sess := MockSession{}
 	mockConn := redigomock.NewConn()
 	token := "029384028095203892"
 	expectResult := "true"

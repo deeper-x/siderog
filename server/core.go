@@ -27,10 +27,11 @@ func (s Session) Start(c redis.Conn) http.HandlerFunc {
 
 		// TODO - MachineID should not be passed publicly - please hash it
 		ID := m.GetID()
+		hash := m.HashString(ID)
 
 		// TODO - check if it's created, createToken should return a bool
-		s.createToken(c, ID)
-		io.WriteString(w, ID)
+		s.createToken(c, hash)
+		io.WriteString(w, hash)
 	}
 
 	return sFunc

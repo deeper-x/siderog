@@ -11,6 +11,6 @@ func (m MockMachine) GetID() string {
 }
 
 // HashString is the mock twin
-func (m MockMachine) HashString(key, input string) string {
-	return "12345678901234567890123456789012"
+func (m MockMachine) HashString(input string) string {
+	return "9b1c40d6add1b6a57e30f9aaddb21d1e39d7093a9ed3336170f146c558134077"
 }

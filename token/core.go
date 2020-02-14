@@ -1,10 +1,9 @@
 package token
 
 import (
-	"crypto/hmac"
 	"crypto/sha256"
+	"fmt"
 	"log"
-	"strings"
 
 	"github.com/denisbrodbeck/machineid"
 )
@@ -32,18 +31,8 @@ func (m Machine) GetID() string {
 }
 
 // HashString a generic input string
-func (m Machine) HashString(key, input string) string {
-	mac := hmac.New(sha256.New, []byte(input))
+func (m Machine) HashString(input string) string {
+	hashed := sha256.Sum256([]byte(input))
 
-	mac.Write([]byte(key))
-
-	// return fmt.Sprintf("%s", mac.Sum(nil))
-	sliceHash := string(mac.Sum(nil))
-
-	var container []string
-	for _, v := range sliceHash {
-		container = append(container, string(v))
-	}
-
-	return strings.Join(container, "")
+	return fmt.Sprintf("%x", hashed)
 }

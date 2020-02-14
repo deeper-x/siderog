@@ -23,9 +23,10 @@ func TestStartSession(t *testing.T) {
 	mm := token.MockMachine{}
 
 	ID := mm.GetID()
+	hash := mm.HashString(ID)
 
 	// register redigomock connection
-	mockConn.Command("SET", ID, "true").Expect("OK")
+	mockConn.Command("SET", hash, "true").Expect("OK")
 
 	urlQuery := fmt.Sprintf("%v/start_session", server.URL)
 	req, err := http.Get(urlQuery)

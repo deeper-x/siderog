@@ -55,7 +55,11 @@ func (ms MockSession) Check(c *redigomock.Conn) http.HandlerFunc {
 			retVal = "true"
 		}
 
-		io.WriteString(w, retVal)
+		_, err := io.WriteString(w, retVal)
+
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	return sFunc

@@ -55,3 +55,16 @@ Some random description notes:
 > siderog
 > Server running...
 ```
+
+### Make
+
+```bash
+# Install
+$ make install
+
+# Run
+$ make run
+
+# Stop
+$ make stop
+```

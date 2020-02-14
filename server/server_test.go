@@ -13,7 +13,7 @@ import (
 )
 
 func TestStartSession(t *testing.T) {
-	sess := Session{}
+	sess := MockSession{}
 	mockConn := redigomock.NewConn()
 	mockConn.Clear()
 
@@ -44,8 +44,8 @@ func TestStartSession(t *testing.T) {
 
 	output := string(result)
 
-	if output != ID {
-		t.Errorf("output %v != %v not expected", output, ID)
+	if output != hash {
+		t.Errorf("output %v != %v not expected", output, hash)
 	}
 }
 

@@ -1,10 +1,10 @@
 package memory
 
 import (
-	"github.com/gomodule/redigo/redis"
 	"github.com/rafaeljusto/redigomock"
 )
 
+// MockToken is the Tocken moct struct
 type MockToken struct {
 	value string
 }
@@ -19,6 +19,7 @@ func (m MockToken) GetValue(r *redigomock.Conn, name string) bool {
 	return true
 }
 
-func (m MockToken) Close(r redis.Conn) {
+// Close is the redis connection wrapper
+func (m MockToken) Close(r *redigomock.Conn) {
 	r.Close()
 }

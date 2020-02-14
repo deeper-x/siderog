@@ -58,6 +58,7 @@ func (ms MockSession) Check(c *redigomock.Conn) http.HandlerFunc {
 	return sFunc
 }
 
+// CheckToken mocks the CheckToken method on Session receiver
 func (ms MockSession) CheckToken(conn *redigomock.Conn, inputVal string) bool {
 	token := memory.MockToken{}
 

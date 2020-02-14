@@ -15,9 +15,7 @@ type Valuer interface {
 }
 
 // Token is the session key
-type Token struct {
-	value string `redis:"value"`
-}
+type Token struct{}
 
 // NewConn create redis connection
 func NewConn() redis.Conn {
@@ -46,6 +44,7 @@ func (t Token) SetValue(conn redis.Conn, name, value string) interface{} {
 func (t Token) GetValue(conn redis.Conn, value string) bool {
 	val, err := conn.Do("GET", value)
 	// defer conn.Close()
+	var retVal bool
 
 	if err != nil {
 		log.Println(err)
@@ -65,10 +64,10 @@ func (t Token) GetValue(conn redis.Conn, value string) bool {
 	retStr := strings.Join(letters, "")
 
 	if retStr != "true" {
-		return false
+		retVal = true
 	}
 
-	return true
+	return retVal
 }
 
 // Close redis

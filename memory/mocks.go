@@ -5,9 +5,7 @@ import (
 )
 
 // MockToken is the Tocken moct struct
-type MockToken struct {
-	value string
-}
+type MockToken struct{}
 
 // SetValue mocks a redis SET
 func (m MockToken) SetValue(r *redigomock.Conn, name, value string) interface{} {

@@ -31,7 +31,11 @@ func (s Session) Start(c redis.Conn) http.HandlerFunc {
 
 		// TODO - check if it's created, createToken should return a bool
 		s.createToken(c, hash)
-		io.WriteString(w, hash)
+		_, err := io.WriteString(w, hash)
+
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	return sFunc
@@ -51,7 +55,11 @@ func (s Session) Check(c redis.Conn) http.HandlerFunc {
 			retVal = "true"
 		}
 
-		io.WriteString(w, retVal)
+		_, err := io.WriteString(w, retVal)
+
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	return sFunc

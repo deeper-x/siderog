@@ -8,7 +8,7 @@ import (
 
 func TestSetValue(t *testing.T) {
 	mockConn := redigomock.NewConn()
-	mt := mockToken{}
+	mt := MockToken{}
 
 	val := mt.SetValue(mockConn, "token", "098204982")
 
@@ -19,7 +19,7 @@ func TestSetValue(t *testing.T) {
 
 func TestGetValue(t *testing.T) {
 	mockConn := redigomock.NewConn()
-	mt := mockToken{}
+	mt := MockToken{}
 
 	expected := "justorius"
 

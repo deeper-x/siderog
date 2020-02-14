@@ -2,22 +2,23 @@ package memory
 
 import (
 	"github.com/gomodule/redigo/redis"
+	"github.com/rafaeljusto/redigomock"
 )
 
-type mockToken struct {
+type MockToken struct {
 	value string
 }
 
 // SetValue mocks a redis SET
-func (m mockToken) SetValue(r redis.Conn, name, value string) interface{} {
+func (m MockToken) SetValue(r *redigomock.Conn, name, value string) interface{} {
 	return "OK"
 }
 
 // GetValue mocks a redis GET
-func (m mockToken) GetValue(r redis.Conn, name string) interface{} {
+func (m MockToken) GetValue(r *redigomock.Conn, name string) interface{} {
 	return "justorius"
 }
 
-func (m mockToken) Close(r redis.Conn) {
+func (m MockToken) Close(r redis.Conn) {
 	r.Close()
 }

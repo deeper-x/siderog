@@ -2,6 +2,7 @@ package server
 
 import (
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/deeper-x/siderog/memory"
@@ -10,9 +11,7 @@ import (
 )
 
 // MockSession define mock receiver
-type MockSession struct {
-	isActive bool
-}
+type MockSession struct{}
 
 // Start mocks machine ID and hashing http response
 func (ms MockSession) Start(mc *redigomock.Conn) http.HandlerFunc {
@@ -25,7 +24,11 @@ func (ms MockSession) Start(mc *redigomock.Conn) http.HandlerFunc {
 
 		// TODO - check if it's created, createToken should return a bool
 		ms.CreateToken(mc, hash)
-		io.WriteString(w, hash)
+		_, err := io.WriteString(w, hash)
+
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	return sFunc

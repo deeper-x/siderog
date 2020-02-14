@@ -1,11 +1,16 @@
 # Sider-OG [WIP]
 
+![Go](https://github.com/deeper-x/siderog/workflows/Go/badge.svg)
+
 ## Project description
 
-Idea is to build a distribuited system for session management, similar to sudo temporary permission.
+Http based sudo-like service.
 
-The server component is delegated to store HASHES in memory, with its TTL.
-Client first set starting session token, then checks if session is active.
+Client ask for session starting, server allows it.
+Client ask if session is active, server replies.
+Server generates unique static server identity, basing on machine ID
+Server component is delegated to store HASHES in memory, with its TTL.
+Token is machine-unique (machine ID), unpredictable (hashed 256sum).
 
 ### Calls
 
@@ -13,10 +18,10 @@ Client first set starting session token, then checks if session is active.
 # start session
 /start_session
 
-# return: 0f39F48J938JF2D834DNCSDR4
+# return: 16b9ee3151ee76fdf5af5c509f9c208865e5a398a660167b64554c4e51211b9
 
 # check session
-/check_session?token=0f39F48J938JF2D834DNCSDR4
+/check_session?token=16b9ee3151ee76fdf5af5c509f9c208865e5a398a660167b64554c4e51211b9
 
 # return: true|false
 ```

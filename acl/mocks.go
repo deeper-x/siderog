@@ -32,6 +32,11 @@ func (me *MockEnforcer) SavePolicy() error {
 	return nil
 }
 
+// Enforce check permissions
+func (me *MockEnforcer) Enforce(args ...interface{}) bool {
+	return true
+}
+
 // LoadPolicy get policy rule to the storage.
 func (a *MockAdapter) LoadPolicy(m model.Model) error {
 	return errors.New("not implemented")

@@ -63,7 +63,7 @@ func (t Token) GetValue(conn redis.Conn, value string) bool {
 
 	retStr := strings.Join(letters, "")
 
-	if retStr != "true" {
+	if retStr == "true" {
 		retVal = true
 	}
 

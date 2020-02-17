@@ -19,6 +19,7 @@ type AdapterInterface interface {
 type EnforcerInterface interface {
 	AddPolicy(...interface{}) bool
 	SavePolicy() error
+	Enforce(...interface{}) bool
 }
 
 // WebAdapter todo doc
@@ -46,4 +47,11 @@ func (wa WebAdapter) StorePolicy(who, what, how string) bool {
 	retVal = true
 
 	return retVal
+}
+
+// CheckPolicy check policy exit status
+func (wa WebAdapter) CheckPolicy(who, what, how string) bool {
+	ok := wa.Enforcer.Enforce(who, what, how)
+
+	return ok
 }

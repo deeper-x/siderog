@@ -28,24 +28,68 @@ func (s Session) Start(c redis.Conn) http.HandlerFunc {
 	sFunc := func(w http.ResponseWriter, r *http.Request) {
 		m := token.Machine{}
 
-		// TODO - MachineID should not be passed publicly - please hash it
-		ID := m.GetID()
-		hash := m.HashString(ID)
+		params, ok := r.URL.Query()["role"]
 
-		// TODO - check if it's created, createToken should return a bool
-		s.createToken(c, hash)
-		_, err := io.WriteString(w, hash)
-
-		if err != nil {
-			log.Println(err)
+		if !ok || len(params) < 1 {
+			log.Println("no parameters...")
+			return
 		}
 
-		// test acl instance here
+		role := params[0]
+
+		adp := redisadapter.NewAdapter("tcp", "127.0.0.1:6379")
+		enf := casbin.NewEnforcer("./acl/conf/rbac_model.conf", adp)
+
+		allowed := enf.Enforce(role, "/start_token", "GET")
+		log.Println(allowed, role)
+
+		if allowed {
+			ID := m.GetID()
+			hash := m.HashString(ID)
+
+			// TODO - check if it's created, createToken should return a bool
+			s.createToken(c, hash)
+			_, err := io.WriteString(w, hash)
+
+			if err != nil {
+				log.Println(err)
+			}
+		} else {
+			_, err := io.WriteString(w, "denied")
+
+			if err != nil {
+				log.Println(err)
+			}
+		}
+
+	}
+
+	return sFunc
+}
+
+// NewRole is an admin function to build new rule
+func (s Session) NewRole(c redis.Conn) http.HandlerFunc {
+	sFunc := func(w http.ResponseWriter, r *http.Request) {
+		params, ok := r.URL.Query()["value"]
+
+		if !ok || len(params[0]) < 1 {
+			log.Println("no parameters...")
+			return
+		}
+
+		role := params[0]
+
 		adapter := redisadapter.NewAdapter("tcp", "127.0.0.1:6379")
 		enf := casbin.NewEnforcer("./acl/conf/rbac_model.conf", adapter)
 
 		wa := acl.NewWebAdapter(enf)
-		wa.StorePolicy("marta", "data3", "read")
+		wa.StorePolicy(role, "/start_token", "GET")
+
+		_, err := io.WriteString(w, role)
+
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	return sFunc
@@ -87,15 +131,4 @@ func (s Session) createToken(conn redis.Conn, inputVal string) {
 	token := memory.Token{}
 
 	token.SetValue(conn, inputVal, "true")
-}
-
-// RunServer is the http listener/server
-func RunServer() {
-	conn := memory.NewConn()
-	sess := Session{isActive: false}
-
-	http.HandleFunc("/start_session", sess.Start(conn))
-	http.HandleFunc("/check_session", sess.Check(conn))
-
-	log.Fatal(http.ListenAndServe(":8080", nil))
 }

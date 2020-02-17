@@ -23,14 +23,20 @@ Some random description notes:
 ### Calls
 
 ```bash
+# create role
+/admin/new_role?value=938579384579348579347
+
+# return: 5029384098403928
+# Description: register role foo in order to allow to consume /start_session call
+
 # start session
-/start_session
+/start_session?role=938579384579348579347
 
 # return: 16b9ee3151ee76fdf5af5c509f9c208865e5a398a660167b64554c4e51211b9
 # Description: This is the client's token
 
 # check session
-/check_session?token=16b9ee3151ee76fdf5af5c509f9c208865e5a398a660167b64554c4e51211b9
+/check_session?token=16b9ee3151ee76fdf5af5c509f9c208865e5a398a660167b64554c4e51211b9e
 
 # return: [true|false]
 # Description: Client session is up/down

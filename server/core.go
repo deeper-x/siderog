@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/casbin/casbin"
+	redisadapter "github.com/casbin/redis-adapter"
+	"github.com/deeper-x/siderog/acl"
 	"github.com/deeper-x/siderog/memory"
 	"github.com/deeper-x/siderog/token"
 	"github.com/gomodule/redigo/redis"
@@ -36,6 +39,13 @@ func (s Session) Start(c redis.Conn) http.HandlerFunc {
 		if err != nil {
 			log.Println(err)
 		}
+
+		// test acl instance here
+		adapter := redisadapter.NewAdapter("tcp", "127.0.0.1:6379")
+		enf := casbin.NewEnforcer("./acl/conf/rbac_model.conf", adapter)
+
+		wa := acl.NewWebAdapter(enf)
+		wa.StorePolicy("marta", "data3", "read")
 	}
 
 	return sFunc

@@ -74,3 +74,14 @@ $ make run
 # Stop
 $ make stop
 ```
+
+### TLS Generation remainder
+
+```bash
+$ mkdir -p tls/cert tls/key
+$ openssl genrsa -out ./tls/key/server.key 2048
+$ openssl ecparam -genkey -name secp384r1 -out ./tls/key/server.key
+$ openssl req -new -x509 -sha256 -key ./tls/key/server.key -out ./tls/cert/server.crt -days 3650
+
+
+```

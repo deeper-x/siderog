@@ -41,7 +41,6 @@ func (s Session) Start(c redis.Conn) http.HandlerFunc {
 		enf := casbin.NewEnforcer("./acl/conf/rbac_model.conf", adp)
 
 		allowed := enf.Enforce(role, "/start_token", "GET")
-		log.Println(allowed, role)
 
 		if allowed {
 			ID := m.GetID()

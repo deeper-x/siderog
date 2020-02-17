@@ -75,12 +75,16 @@ $ make run
 $ make stop
 ```
 
-### TLS Generation remainder
+### TLS setup
 
 ```bash
 $ mkdir -p tls/cert tls/key
+# private key (.key)
 $ openssl genrsa -out ./tls/key/server.key 2048
+# Key considerations for algorithm "ECDSA" ≥ secp384r1
+# List ECDSA the supported curves (openssl ecparam -list_curves)
 $ openssl ecparam -genkey -name secp384r1 -out ./tls/key/server.key
+# self-signed(x509) public key (PEM-encodings .pem|.crt) based on the private (.key)
 $ openssl req -new -x509 -sha256 -key ./tls/key/server.key -out ./tls/cert/server.crt -days 3650
 
 

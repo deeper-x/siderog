@@ -27,7 +27,7 @@ Some random description notes:
 /admin/new_role?value=938579384579348579347
 
 # return: 938579384579348579347
-# Description: register role foo in order to allow to consume /start_session call
+# Description: register role 938579384579348579347 in order to allow to consume /start_session call
 
 # start session
 /start_session?role=938579384579348579347

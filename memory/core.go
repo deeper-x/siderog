@@ -1,3 +1,4 @@
+// Package memory does a lot of interesting things...
 package memory
 
 import (

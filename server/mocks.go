@@ -34,6 +34,28 @@ func (ms MockSession) Start(mc *redigomock.Conn) http.HandlerFunc {
 	return sFunc
 }
 
+// NewRole mocks NewRole method on Session receiver
+func (ms MockSession) NewRole(conn *redigomock.Conn) http.HandlerFunc {
+	sFunc := func(w http.ResponseWriter, r *http.Request) {
+		params, ok := r.URL.Query()["value"]
+
+		if !ok || len(params) < 1 {
+			log.Println("no parameters...")
+			return
+		}
+
+		role := params[0]
+
+		_, err := io.WriteString(w, role)
+
+		if err != nil {
+			log.Println(err)
+		}
+	}
+
+	return sFunc
+}
+
 // CreateToken mocks token generation
 func (ms MockSession) CreateToken(conn *redigomock.Conn, inputVal string) {
 	token := memory.MockToken{}

@@ -49,6 +49,36 @@ func TestStartSession(t *testing.T) {
 	}
 }
 
+func TestNewRole(t *testing.T) {
+	sess := MockSession{}
+	mockConn := redigomock.NewConn()
+	token := "029384028095203892"
+
+	server := httptest.NewServer(sess.NewRole(mockConn))
+	defer server.Close()
+
+	urlQuery := fmt.Sprintf("%v/admin/new_role?value=%v", server.URL, token)
+	req, err := http.Get(urlQuery)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	result, err := ioutil.ReadAll(req.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	output := string(result)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if output != token {
+		t.Errorf("Role creation error, %v not as expected %v", output, token)
+	}
+}
+
 func TestCheckSession(t *testing.T) {
 	sess := MockSession{}
 	mockConn := redigomock.NewConn()

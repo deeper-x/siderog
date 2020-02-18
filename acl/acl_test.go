@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestSavePolicy(t *testing.T) {
+func TestStorePolicy(t *testing.T) {
 	na := MockNewAdapter()
 	dummyPath := "/somewhere/over/the/rainbow"
 	enf := MockNewEnforcer(dummyPath, na)

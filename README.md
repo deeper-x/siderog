@@ -2,6 +2,7 @@
 
 ![Go](https://github.com/deeper-x/siderog/workflows/Go/badge.svg)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/90c2bae02c784850b0961fbdc7acd9c9)](https://www.codacy.com/manual/deeper-x/siderog?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=deeper-x/siderog&amp;utm_campaign=Badge_Grade)
+[![GoDoc](https://godoc.org/github.com/deeper-x/siderog?status.svg)](https://godoc.org/github.com/deeper-x/siderog)
 
 ## Project description
 
